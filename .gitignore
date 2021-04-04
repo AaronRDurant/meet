@@ -4,6 +4,13 @@
 /node_modules
 /.pnp
 .pnp.js
+jspm_packages
+
+# serverless directories
+.serverless
+
+# environment variables
+config.json
 
 # testing
 /coverage
