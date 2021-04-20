@@ -47,6 +47,7 @@ input[type="number"] {
 	max-width: 300px;
 	margin: auto;
 	position: relative;
+	margin-bottom: 50px;
 }
 
 .suggestions {
@@ -73,16 +74,27 @@ input[type="number"] {
 }
 
 .suggestions > li:hover {
-	background-color: #bcdcdb;
+	background-color: #e57667;
 }
 
 .event {
-	padding: 10px 10px 35px;
+	padding: 20px 20px 40px;
+	margin-left: 20%;
+	margin-right: 20%;
 	margin-bottom: 10px;
 	text-align: left;
 	border: 1px solid #ccc;
 	border-radius: 4px;
 	position: relative;
+}
+
+.event-title {
+	font-size: 32px;
+}
+
+.event-location {
+	font-style: italic;
+	margin-bottom: 15px;
 }
 
 .details-button {
@@ -112,6 +124,7 @@ input[type="number"] {
 
 .description {
 	overflow-x: hidden;
+	line-height: 1.2;
 }
 
 .numberOfEvents {
