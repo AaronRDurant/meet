@@ -1,5 +1,6 @@
 import { mockData } from './mock-data';
 import axios from 'axios';
+import NProgress from 'nprogress';
 
 // This function takes an events array, then uses map to create a new array with only locations.
 // It will also remove all duplicates by creating another new array using the spread operator and spreading a Set.
@@ -88,7 +89,7 @@ const removeQuery = () => {
 const getToken = async (code) => {
 	const encodeCode = encodeURIComponent(code);
 	const { access_token } = await fetch(
-		'https://nusdmtfcm3.execute-api.us-east-2.amazonaws.com/dev/api/token' + '/' + encodeCode)
+		'https://nusdmtfcm3.execute-api.us-east-2.amazonaws.com/dev/api/token' + '/' + encodeCode
 	)
 	.then((res) => {
 		return res.json();

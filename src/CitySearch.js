@@ -32,12 +32,13 @@ class CitySearch extends Component {
 			<div className="CitySearch">
 				<input
 					type="text"
+					placeholder="Enter a city..."
 					className="city"
 					value={this.state.query}
 					onChange={this.handleInputChanged}
 					onFocus={() => { this.setState({ showSuggestions: true }) }}
 				/>
-				<ul className="suggestions" style={this.state.showSuggestions ? {}: { display: 'none' }}>
+				<ul className="suggestions" style={this.state.showSuggestions ? {} : { display: 'none' }}>
 					{this.state.suggestions.map((suggestion) => (
 						<li
 							key={suggestion}
