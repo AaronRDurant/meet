@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
-import * as serviceWorker from './serviceWorker';
+import reportWebVitals from './reportWebVitals';
 import * as atatus from 'atatus-spa';
 
 ReactDOM.render(
@@ -12,6 +12,6 @@ ReactDOM.render(
 	document.getElementById('root')
 );
 
-serviceWorker.register();
+reportWebVitals();
 
 atatus.config('cbf586bcf1ea4d5e8a11a726cca41428').install();
