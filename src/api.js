@@ -2,10 +2,6 @@ import { mockData } from './mock-data';
 import axios from 'axios';
 import NProgress from 'nprogress';
 
-// This function takes an events array, then uses map to create a new array with only locations.
-// It will also remove all duplicates by creating another new array using the spread operator and spreading a Set.
-// The Set will remove all duplicates from the array.
-
 export const extractLocations = (events) => {
 	const extractLocations = events.map((event) => event.location);
 	return [...new Set(extractLocations)];
@@ -36,12 +32,21 @@ export const getEvents = async () => {
 
 	if (token) {
 		removeQuery();
-		const url = 'https://nusdmtfcm3.execute-api.us-east-2.amazonaws.com/dev/api/get-events' + '/' + token;
+		const url =
+		'https://nusdmtfcm3.execute-api.us-east-2.amazonaws.com/dev/api/get-events' +
+		'/' +
+		token
 		const result = await axios.get(url);
 		if (result.data) {
+<<<<<<< Updated upstream
 			const locations = extractLocations(result.data.events);
 			localStorage.setItem("lastEvents", JSON.stringify(result.data));
 			localStorage.setItem("locations", JSON.stringify(locations));
+=======
+			var locations = extractLocations(result.data.events);
+			localStorage.setItem('lastEvents', JSON.stringify(result.data));
+			localStorage.setItem('locations', JSON.stringify(locations));
+>>>>>>> Stashed changes
 		}
 		NProgress.done();
 		return result.data.events;
@@ -53,23 +58,25 @@ export const getAccessToken = async () => {
 	const tokenCheck = accessToken && (await checkToken(accessToken));
 
 	if (!accessToken || tokenCheck.error) {
-		await localStorage.removeItem("access_token");
+		await localStorage.removeItem('access_token');
 		const searchParams = new URLSearchParams(window.location.search);
-		const code = await searchParams.get("code");
-		if(!code) {
+		const code = await searchParams.get('code');
+		if (!code) {
 			const results = await axios.get(
-				"https://nusdmtfcm3.execute-api.us-east-2.amazonaws.com/dev/api/get-auth-url"
+				'https://nusdmtfcm3.execute-api.us-east-2.amazonaws.com/dev/api/get-auth-url'
 			);
-			const { authURL } = results.data;
-			return (window.location.href = authURL);
+			const { authUrl } = results.data;
+			return (window.location.href = authUrl);
 		}
 		return code && getToken(code);
 	}
-	return accessToken
+	
+	return accessToken;
 };
 
 const removeQuery = () => {
 	if (window.history.pushState && window.location.pathname) {
+<<<<<<< Updated upstream
 		let newUrl =
 			window.location.protocol +
 			"//" +
@@ -79,20 +86,37 @@ const removeQuery = () => {
 	} else {
 		let newUrl = window.location.protocol + "//" + window.location.host;
 		window.history.pushState("", "", newUrl);
+=======
+		var newurl =
+		window.location.protocol +
+		'//' +
+		window.location.host +
+		window.location.pathname;
+		window.history.pushState('', '', newurl);
+	} else {
+		newurl = window.location.protocol + '//' + window.location.host;
+		window.history.pushState('', '', newurl);
+>>>>>>> Stashed changes
 	}
 };
 
 const getToken = async (code) => {
 	const encodeCode = encodeURIComponent(code);
 	const { access_token } = await fetch(
-		'https://nusdmtfcm3.execute-api.us-east-2.amazonaws.com/dev/api/token' + '/' + encodeCode
+		`https://nusdmtfcm3.execute-api.us-east-2.amazonaws.com/dev/api/token/${encodeCode}`
 	)
 	.then((res) => {
 		return res.json();
 	})
 	.catch((error) => error);
+<<<<<<< Updated upstream
 
 	access_token && localStorage.setItem("access_token", access_token);
 
+=======
+	
+	access_token && localStorage.setItem('access_token', access_token);
+	
+>>>>>>> Stashed changes
 	return access_token;
 };

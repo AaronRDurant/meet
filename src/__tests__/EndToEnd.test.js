@@ -51,12 +51,16 @@ describe('show/hide event details', () => {
 	
 	beforeAll(async () => {
 		jest.setTimeout(120000);
+<<<<<<< Updated upstream
 		const browser = await puppeteer.launch({
 			// headless: false,
 			// slowMo: 250,
 			// ignoreDefaultArgs: ['--disable-extensions'],
 			// args: ['--no-sandbox', '--disable-setuid-sandbox']
 		});
+=======
+		browser = await puppeteer.launch();
+>>>>>>> Stashed changes
 		page = await browser.newPage();
 		await page.goto('http://localhost:3000/');
 		await page.waitForSelector('.event');
