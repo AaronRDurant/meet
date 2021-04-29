@@ -1,70 +1,57 @@
-import React from 'react';
-import { loadFeature, defineFeature } from 'jest-cucumber';
-import { mount } from 'enzyme';
-import App from '../App';
-import { mockData } from '../mock-data';
+import React from "react";
+import App from "../App";
+import NumberOfEvents from "../NumberOfEvents";
+import { loadFeature, defineFeature } from "jest-cucumber";
+import { mount } from "enzyme";
 
-const feature = loadFeature('./src/features/showHideAnEventsDetails.feature');
+const feature = loadFeature("./src/features/specifyNumberOfEvents.feature");
 
-defineFeature(feature, test => {
-	test('An event element is collapsed by default', ({ given, and, when, then }) => {
-		let AppWrapper;
-		given('app is loaded', () => {
-			AppWrapper = mount(<App />);
-		});
-		
-		and('the list of events is loaded', () => {
-			AppWrapper.update();
-			expect(AppWrapper.find('.event')).toHaveLength(mockData.length);
-		});
-		
-		when('user did not click show details button', () => {
-			
-		});
-		
-		then('event elements will be collapsed', () => {
-			expect(AppWrapper.find('showDetails')).toHaveLength(0);
-		});
+defineFeature(feature, (test) => {
+  test("If user hasn’t specified a number, 32 is the default number.", ({
+	given,
+	when,
+	then,
+  }) => {
+	given("the user did not specify a number of events being shown", () => { });
+
+	let AppWrapper;
+
+	when("app loaded", () => {
+	  AppWrapper = mount(<App />);
 	});
-	
-	test('User can expand an event to see its details', ({ given, and, when, then }) => {
-		let AppWrapper;
-		given('app is loaded', () => {
-			AppWrapper = mount(<App />);
-		});
-		
-		and('the list of events is loaded', () => {
-			AppWrapper.update();
-			expect(AppWrapper.find('.event')).toHaveLength(mockData.length);
-		});
-		
-		when('user clicks show details button', () => {
-			AppWrapper.find('.event .details-button').at(0).simulate('click');
-		});
-		
-		then('the event element should expand and show details', () => {
-			expect(AppWrapper.find('.event .event-details')).toHaveLength(1);
-		});
+
+	then("the default number of shown events is 32", () => {
+	  AppWrapper.update();
+	  expect(AppWrapper.find(".event").length).toBeLessThanOrEqual(32);
 	});
-	
-	test('User can collapse an event to hide its details', ({ given, and, when, then }) => {
-		let AppWrapper;
-		given('app is loaded', () => {
-			AppWrapper = mount(<App />);
-		});
-		
-		and('the event element is expanded', () => {
-			AppWrapper.update();
-			AppWrapper.find('.event .details-button').at(0).simulate('click');
-			expect(AppWrapper.find('.event .event-details')).toHaveLength(1);
-		});
-		
-		when('user clicks hide details button', () => {
-			AppWrapper.find('.event .details-button').at(0).simulate('click');
-		});
-		
-		then('the event element should collapse', () => {
-			expect(AppWrapper.find('.event-details')).toHaveLength(0);
-		});
+  });
+
+  test("User can change the number of events they want to see.", ({
+	given,
+	when,
+	then,
+  }) => {
+	let AppWrapper;
+
+	given(
+	  "the list of events has been loaded and the user did not specify a number of events he wants to see",
+	  () => {
+		AppWrapper = mount(<App />);
+	  }
+	);
+
+	when("the user specified a number", () => {
+	  const numberOfEvents = { target: { value: 10 } };
+	  AppWrapper.find(".number-of-events").simulate("change", numberOfEvents);
 	});
+
+	then(
+	  "the app should load a maximum of the specified number of events",
+	  () => {
+		const NumberOfEventsWrapper = AppWrapper.find(NumberOfEvents);
+		NumberOfEventsWrapper.setState({ numberOfEvents: 10 });
+		expect(NumberOfEventsWrapper.state("numberOfEvents")).toBe(10);
+	  }
+	);
+  });
 });
