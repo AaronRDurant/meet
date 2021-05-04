@@ -3,9 +3,10 @@ import axios from 'axios';
 import NProgress from 'nprogress';
 
 export const extractLocations = (events) => {
-	var extractLocations = events.map((event) => event.location);var locations = [...new Set(extractLocations)];
+	var extractLocations = events.map((event) => event.location);
+	var locations = [...new Set(extractLocations)];
 	return locations;
-};
+}
 
 export const extractEvents = (events) => {
 	var extractEvents = events.map((event) => event);
@@ -26,18 +27,18 @@ const checkToken = async (accessToken) => {
 export const getEvents = async () => {
 	NProgress.start();
 	
-	if (
-		!navigator.onLine &&
-		!window.location.href.startsWith('http://localhost');
-	) {
-		const events = localStorage.getItem('lastEvents');
-		NProgress.done();
-		return JSON.parse(events).events;
-	}
-	
 	if (window.location.href.startsWith('http://localhost')) {
 		NProgress.done();
-		return mockData;
+		return { events: mockData, locations: extractLocations(mockData) };
+	}
+	
+	if (!navigator.onLine) {
+		const events = localStorage.getItem('lastEvents');
+		NProgress.done();
+		return {
+			events: JSON.parse(events).events,
+			locations: extractLocations(JSON.parse(events).events),
+		};
 	}
 	
 	const token = await getAccessToken();
