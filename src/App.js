@@ -4,7 +4,7 @@ import EventList from './EventList';
 import CitySearch from './CitySearch';
 import NumberOfEvents from './NumberOfEvents';
 import { getEvents, extractLocations } from './api';
-import "./nprogress.css";
+import './nprogress.css';
 import { OfflineAlert } from './Alert';
 
 class App extends Component {
@@ -12,24 +12,24 @@ class App extends Component {
 		events: [],
 		locations: [],
 		numberOfEvents: 32,
-		currentLocation: "all",
-		alertText: "",
+		currentLocation: 'all',
+		alertText: '',
 	};
 	
 	updateEvents = (location, eventCount) => {
 		if (!navigator.onLine) {
 			this.setState({
 				alertText:
-				"It seems you've lost connection! Please reconnect to ensure the list of events is updated.",
+				"Please connect to the internet to ensure the events list is updated.",
 			});
 		} else {
-			this.setState({ alertText: "" });
+			this.setState({ alertText: '' });
 		}
 		const { currentLocation, numberOfEvents } = this.state;
 		if (location) {
 			getEvents().then((events) => {
 				const locationEvents =
-				location === "all"
+				location === 'all'
 				? events
 				: events.filter((event) => event.location === location);
 				const filteredEvents = locationEvents.slice(0, numberOfEvents);
@@ -41,7 +41,7 @@ class App extends Component {
 		} else {
 			getEvents().then((events) => {
 				const locationEvents =
-				currentLocation === "all"
+				currentLocation === 'all'
 				? events
 				: events.filter((event) => event.location === currentLocation);
 				const filteredEvents = locationEvents.slice(0, eventCount);
@@ -71,7 +71,7 @@ class App extends Component {
 	
 	render() {
 		return (
-			<div className="App">
+			<div className='App'>
 				<CitySearch locations={this.state.locations} updateEvents={this.updateEvents} />
 				<NumberOfEvents numberOfEvents={this.state.numberOfEvents} updateEvents={this.updateEvents} />
 				<OfflineAlert text={this.state.alertText} />

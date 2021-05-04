@@ -6,7 +6,7 @@ export const extractLocations = (events) => {
 	var extractLocations = events.map((event) => event.location);
 	var locations = [...new Set(extractLocations)];
 	return locations;
-}
+};
 
 export const extractEvents = (events) => {
 	var extractEvents = events.map((event) => event);
@@ -27,18 +27,15 @@ const checkToken = async (accessToken) => {
 export const getEvents = async () => {
 	NProgress.start();
 	
-	if (window.location.href.startsWith('http://localhost')) {
-		NProgress.done();
-		return { events: mockData, locations: extractLocations(mockData) };
-	}
-	
 	if (!navigator.onLine) {
 		const events = localStorage.getItem('lastEvents');
 		NProgress.done();
-		return {
-			events: JSON.parse(events).events,
-			locations: extractLocations(JSON.parse(events).events),
-		};
+		return JSON.parse(events).events;
+	}
+	
+	if (window.location.href.startsWith('http://localhost')) {
+		NProgress.done();
+		return mockData;
 	}
 	
 	const token = await getAccessToken();
@@ -71,7 +68,7 @@ export const getAccessToken = async () => {
 		if (!code) {
 			const results = await axios.get(
 				'https://nusdmtfcm3.execute-api.us-east-2.amazonaws.com/dev/api/get-auth-url'
-			)
+			);
 			const { authUrl } = results.data;
 			return (window.location.href = authUrl);
 		}
