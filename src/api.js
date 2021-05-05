@@ -24,6 +24,7 @@ const getEvents = async () => {
 	
 	// Calls API to retrieve events data
 	const token = await getAccessToken();
+	let locations = null;
 	if (token) {
 		removeQuery();
 		const url = 'https://nusdmtfcm3.execute-api.us-east-2.amazonaws.com/dev/api/get-events' +
@@ -31,7 +32,7 @@ const getEvents = async () => {
 			token;
 		const result = await axios.get(url);
 		if (result.data) {
-			var locations = extractLocations(result.data.events);
+			locations = extractLocations(result.data.events);
 			localStorage.setItem('lastEvents', JSON.stringify(result.data));
 			localStorage.setItem('locations', JSON.stringify(locations));
 		}
@@ -40,10 +41,9 @@ const getEvents = async () => {
 	}
 }
 
-const extractLocations = (events) => {
-	var extractLocations = events.map((event) => event.location);
-	var locations = [...new Set(extractLocations)];
-	return locations;
+const extractLocations = (events = [] ) => {
+	const extractLocations = events.map(event => event.location);
+	return [...new Set(extractLocations)];
 }
 
 // Authentication and authorization
@@ -81,7 +81,7 @@ const checkToken = async (accessToken) => {
 	.then((res) => res.json())
 	.catch((error) => error.json());
 	
-	return result.error ? false : true;
+	return !result.error;
 }
 
 // Gets new token from AWS Lambda if no token or invalid token
@@ -103,8 +103,9 @@ const getToken = async (code) => {
 
 // Removes code from URL after use
 const removeQuery = () => {
+	let newUrl;
 	if (window.history.pushState && window.location.pathname) {
-		var newUrl =
+		newUrl =
 			window.location.protocol +
 			'//' +
 			window.location.host +
