@@ -26,12 +26,12 @@ class Event extends Component {
 					<p className="event-date">{event.dateTime}</p>
 					{!showDetails && (
 						<button className="details-button" onClick={this.handleShowDetails}>
-							Show Details
+							Show more
 						</button>
 					)}
 					{showDetails && (
 						<button className="details-button" onClick={this.handleShowDetails}>
-							Hide Details
+							Hide
 						</button>
 					)}
 				</div>
