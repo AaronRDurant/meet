@@ -3,7 +3,7 @@ import './App.css';
 import EventList from './EventList';
 import CitySearch from './CitySearch';
 import NumberOfEvents from './NumberOfEvents';
-// import EventGenre from './EventGenre';
+import EventGenre from './EventGenre';
 import { getEvents, extractLocations } from './api';
 import './nprogress.css';
 import { OfflineAlert } from './Alert';
@@ -90,6 +90,7 @@ class App extends Component {
 				<h4>Number of events (max of 32):</h4>
 				<NumberOfEvents numberOfEvents={this.state.numberOfEvents} updateEvents={this.updateEvents} /><br></br>
 				<div className='data-vis-wrapper'>
+					<EventGenre events={this.state.events} />
 					<ResponsiveContainer height={400} >
 						<ScatterChart margin={{ top: 20, right: 20, bottom: 20, left: 20 }} >
 							<CartesianGrid />
