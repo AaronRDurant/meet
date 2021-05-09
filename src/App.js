@@ -7,7 +7,7 @@ import EventGenre from './EventGenre';
 import { getEvents, extractLocations } from './api';
 import './nprogress.css';
 import { OfflineAlert } from './Alert';
-import { ScatterChart, Scatter, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, LabelList } from 'recharts';
+import { ScatterChart, Scatter, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
 class App extends Component {
 	state = {
